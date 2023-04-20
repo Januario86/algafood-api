@@ -2,6 +2,7 @@ package com.algaworks.algafood.infrastructure.repository;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.algaworks.algafood.domain.model.Cozinha;
@@ -9,7 +10,7 @@ import com.algaworks.algafood.domain.repository.CozinhaRepository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-
+@Component
 public class CozinhaRepositoryImpl implements CozinhaRepository{
 
 	@PersistenceContext
