@@ -7,7 +7,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,15 +22,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.algaworks.algafood.api.model.CozinhasXmlWrapper;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
-
-import ch.qos.logback.core.joran.util.beans.BeanUtil;
+import com.algaworks.algafood.domain.service.CadastroCozinhaService;
 
 @RestController
 @RequestMapping(value= "/cozinhas")
 public class CozinhaController {
 	
 	@Autowired
-	private CozinhaRepository cozinhaRepository;	
+	private CozinhaRepository cozinhaRepository;
+	
+	@Autowired
+	private CadastroCozinhaService cadastroCozinhaService;
 	
 	@GetMapping
 	public List<Cozinha> listar(){
@@ -56,7 +57,7 @@ public class CozinhaController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Cozinha adicionar(@RequestBody Cozinha cozinha) {
-		return cozinhaRepository.salvar(cozinha);
+		return cadastroCozinhaService.salvar(cozinha);
 	}
 	
 	@PutMapping(value = "/{cozinhaId}")
@@ -76,8 +77,7 @@ public class CozinhaController {
 	@DeleteMapping(value="/{cozinhaId}")
 	public ResponseEntity<Cozinha> remover(@PathVariable Long cozinhaId){
 		try {
-			
-		
+					
 			Cozinha cozinha = cozinhaRepository.buscar(cozinhaId);
 			
 			if(cozinha != null) {
